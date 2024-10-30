@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">PART2 Shopping List</string>
+    <string name="add_product">Add Product</string>
+    <string name="hint_product">Product Name...</string>
+    <string name="button_save">Save</string>
+    <string name="empty_not_saved">Item cannot be empty.</string>
+    <string name="unit_prompt">Choose the unit.</string>
+
+    <string-array name="unit_labels">
+        <item>Unit</item>
+        <item>Kg</item>
+        <item>Litre</item>
+    </string-array>
+</resources>

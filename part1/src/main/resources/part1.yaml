@@ -1,0 +1,440 @@
+openapi: "3.0.1"
+info:
+  title: Part1
+  version: 1.0.0
+  description: Part 1 of the Semester 2 java assignment
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: convenor
+    description: Convenor endpoints
+  - name: module
+    description: Module endpoints
+  - name: session
+    description: Session endpoints
+paths:
+  /convenors:
+    get:
+      summary: List all convenors
+      tags:
+        - convenor
+      responses:
+        '200':
+          description: Convenor retrieved successfully
+        '204':
+          description: Error. No convenors found
+    post:
+      summary: Create a new convenor
+      tags:
+        - convenor
+      requestBody:
+        required: true
+        description: a JSON
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Convenor'
+      responses:
+        '201':
+          description: Convenor created successfully
+        '400':
+          description: Error. Invalid input
+  /convenors/{id}:
+    get:
+      summary: Retrieve a specific convenor
+      tags:
+        - convenor
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The ID of the convenor to retrieve
+      responses:
+        '200':
+          description: Convenor retrieved successfully.
+        '404':
+          description: Error. Convenor not found
+    put:
+      summary: Update a specific convenor
+      tags:
+        - convenor
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The ID of the convenor to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Convenor'
+      responses:
+        '200':
+          description: Convenor updated successfully
+        '404':
+          description: Error. Convenor not found
+    delete:
+      summary: Delete a specific convenor
+      tags:
+        - convenor
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The ID of the convenor to delete
+      responses:
+        '200':
+          description: Convenor deleted successfully
+        '404':
+          description: Error. Convenor not found
+  /convenors/{id}/modules:
+    get:
+      summary: List all modules taught by a convenor
+      tags:
+        - convenor
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The ID of the convenor
+      responses:
+        '200':
+          description: Module retrieved successfully
+        '404':
+          description: Error. Convenor not found
+  /modules:
+    get:
+      summary: List all modules
+      tags:
+        - module
+      responses:
+        '200':
+          description: Modules retrieved successfully
+        '204':
+          description: Error. No modules found
+    post:
+      summary: Create a new module
+      tags:
+        - module
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Module'
+      responses:
+        '201':
+          description: Module created successfully
+        '409':
+          description: Module already exists
+  /modules/{code}:
+    get:
+      summary: Retrieve a specific module
+      tags:
+        - module
+      parameters:
+        - in: path
+          name: code
+          schema:
+            type: string
+          required: true
+          description: The code of the module to retrieve
+      responses:
+        '200':
+          description: Module retrieved successfully
+        '404':
+          description: Error. Module not found
+    patch:
+      summary: Update a specific module
+      tags:
+        - module
+      parameters:
+        - in: path
+          name: code
+          schema:
+            type: string
+          required: true
+          description: The code of the module to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModuleUpdate'
+      responses:
+        '200':
+          description: Module updated successfully
+        '404':
+          description: Error. Module not found
+    delete:
+      summary: Delete a specific module
+      tags:
+        - module
+      parameters:
+        - in: path
+          name: code
+          schema:
+            type: string
+          required: true
+          description: The code of the module to delete
+      responses:
+        '200':
+          description: Module deleted successfully
+        '404':
+          description: Error. Module not found
+  /modules/{code}/sessions:
+    get:
+      summary: List all sessions in a module
+      tags:
+        - module
+      parameters:
+        - in: path
+          name: code
+          schema:
+            type: string
+          required: true
+          description: The code of the module
+      responses:
+        '200':
+          description: Sessions retrieved successfully.
+        '404':
+          description: Error. Module not found
+    post:
+      summary: Create a new session in a module
+      tags:
+        - module
+      parameters:
+        - in: path
+          name: code
+          schema:
+            type: string
+          required: true
+          description: The code of the module to create the session in
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sessions'
+      responses:
+        '200':
+          description: Session created
+        '404':
+          description: Error. Module not found
+  /modules/{code}/sessions/{id}:
+    get:
+      summary: Retrieve a specific session in a module
+      tags:
+        - module
+      parameters:
+        - in: path
+          name: code
+          schema:
+            type: string
+          required: true
+          description: The code of the module
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The ID of the session to retrieve
+      responses:
+        '200':
+          description: Session has been retreived successfully
+        '404':
+          description: Error. Session not found
+    put:
+      summary: Update a specific session in a module
+      tags:
+        - module
+      parameters:
+        - in: path
+          name: code
+          schema:
+            type: string
+          required: true
+          description: The code of the module
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The ID of the session to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sessions'
+      responses:
+        '200':
+          description: Session updated
+        '404':
+          description: Error. Session not found
+    patch:
+      summary: Update a specific session in a module
+      tags:
+        - module
+      parameters:
+        - in: path
+          name: code
+          schema:
+            type: string
+          required: true
+          description: The code of the module
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The ID of the session to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SessionUpdate'
+      responses:
+        '200':
+          description: Session updated
+        '404':
+          description: Error. Session not found in selected module
+    delete:
+      summary: Delete a specific session in a module
+      tags:
+        - module
+      parameters:
+        - in: path
+          name: code
+          schema:
+            type: string
+          required: true
+          description: The code of the module
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The ID of the session to delete
+      responses:
+        '200':
+          description: Session deleted successfully
+        '404':
+          description: Error. Session not found
+  /sessions:
+    delete:
+      summary: Delete all sessions
+      tags:
+        - session
+      responses:
+        '204':
+          description: All sessions deleted successfully
+        '404':
+          description: Error. Sessions have not been deleted
+    get:
+      summary: List all sessions, with optional filters for convenor and module
+      tags:
+        - session
+      parameters:
+        - in: query
+          name: convenor
+          schema:
+            type: integer
+          description: The ID of a convenor to filter by
+        - in: query
+          name: module
+          schema:
+            type: string
+          description: The code of a module to filter by
+      responses:
+        '200':
+          description: Sessions retrieved
+        '404':
+          description: Error. No sessions found
+components:
+  schemas:
+    Convenor:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
+        position:
+          $ref: '#/components/schemas/Position'
+      required:
+        - name
+        - position
+    Position:
+      type: string
+      enum: [GTA, Lecturer, Professor]
+    Module:
+      type: object
+      properties:
+        code:
+          type: string
+        title:
+          type: string
+        level:
+          type: integer
+        optional:
+          type: boolean
+      required:
+        - code
+        - title
+        - level
+        - optional
+    ModuleUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        level:
+          type: integer
+        optional:
+          type: boolean
+    Sessions:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        topic:
+          type: string
+        datetime:
+          type: string
+          format: date-time
+        duration:
+          type: integer
+      required:
+        - topic
+        - datetime
+        - duration
+    SessionUpdate:
+      type: object
+      properties:
+        topic:
+          type: string
+        datetime:
+          type: string
+          format: date-time
+        duration:
+          type: integer
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
